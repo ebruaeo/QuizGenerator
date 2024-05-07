@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">QuizGenerator</string>
+    <string name="quiz_text">A slug\'s blood is green.</string>
+</resources>
