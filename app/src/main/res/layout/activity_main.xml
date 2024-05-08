@@ -54,27 +54,28 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewScore"
         app:layout_constraintVertical_bias="0.448" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/trueButton"
-        style="@style/CustomButtonStyle"
         android:layout_width="325dp"
         android:layout_height="73dp"
         android:layout_marginTop="264dp"
+        android:background="@drawable/my_button"
         android:text="True"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/falseButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/quizText"
         app:layout_constraintVertical_bias="0.0" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/falseButton"
         android:layout_width="325dp"
         android:layout_height="73dp"
-
         android:layout_marginBottom="84dp"
         android:background="@drawable/my_button"
         android:text="False"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
