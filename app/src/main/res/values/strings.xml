@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">QuizGenerator</string>
     <string name="quiz_text">A slug\'s blood is green.</string>
+    <string name="score_text">Quiz is finished. Your score is 2/4</string>
 </resources>
