@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
     private var currentQuestionIndex = 0
     private var score = 0
 
+    private var isAnswered = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -68,24 +70,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun correctButtonColors(buttonIndex: Int) {
         when (buttonIndex) {
-            0 -> binding.optionOneButton.setBackgroundColor(Color.GREEN)
-            1 -> binding.optionTwoButton.setBackgroundColor(Color.GREEN)
+            0 -> binding.optionOneButton.setBackgroundResource(R.drawable.green_background)
+            1 -> binding.optionTwoButton.setBackgroundResource(R.drawable.green_background)
         }
 
     }
 
     private fun wrongButtonColors(buttonIndex: Int) {
         when (buttonIndex) {
-            0 -> binding.optionOneButton.setBackgroundColor(Color.RED)
-            1 -> binding.optionTwoButton.setBackgroundColor(Color.RED)
+            0 -> binding.optionOneButton.setBackgroundResource(R.drawable.red_background)
+            1 -> binding.optionTwoButton.setBackgroundResource(R.drawable.red_background)
         }
     }
 
     private fun resetButtonColors() {
-        binding.optionOneButton.setBackgroundColor(Color.TRANSPARENT)
-        binding.optionTwoButton.setBackgroundColor(Color.TRANSPARENT)
+        binding.optionOneButton.setBackgroundResource(R.drawable.my_button)
+        binding.optionTwoButton.setBackgroundResource(R.drawable.my_button)
 
     }
 
@@ -95,10 +98,7 @@ class MainActivity : AppCompatActivity() {
         binding.optionTwoButton.text = options[currentQuestionIndex][1]
         resetButtonColors()
 
-        if (currentQuestionIndex == questions.size - 1) {
-            val intent = Intent(this@MainActivity, ScoreScreen::class.java)
-            startActivity(intent)
-        }
+
     }
 
 
@@ -116,6 +116,9 @@ class MainActivity : AppCompatActivity() {
         if (currentQuestionIndex < questions.size - 1) {
             currentQuestionIndex++
             binding.quizText.postDelayed({ displayQuestions() }, 1000)
+        } else if (currentQuestionIndex == questions.size - 1) {
+            val intent = Intent(this@MainActivity, ScoreScreen::class.java)
+            startActivity(intent)
         }
     }
 
