@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#262D4A"
-    tools:context=".ScoreScreen">
+    tools:context=".ScoreActivity">
 
     <ImageView
         android:id="@+id/bubblesBackground"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/scoreValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0"

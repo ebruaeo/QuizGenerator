@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
         if (selectedAnswerIndex == correctAnswerIndex) {
             score++
-            binding.score.text = score.toString()
+            binding.scoreValue.text = score.toString()
             correctButtonColors(selectedAnswerIndex)
         } else {
             wrongButtonColors(selectedAnswerIndex)
