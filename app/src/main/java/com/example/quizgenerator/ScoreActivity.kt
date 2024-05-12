@@ -26,14 +26,27 @@ class ScoreActivity : AppCompatActivity() {
             insets
         }
 
+
         val score = intent.getIntExtra(SCORE_KEY, -1)
         val questionCount = intent.getIntExtra(QUESTION_COUNT_KEY, -1)
         binding.scoreValue.text = score.toString()
         binding.scoreExplanationText.text = "Quiz is finished. Your score is $score/$questionCount"
+        setUpSeekBar(questionCount)
+
+
+
 
 
         binding.startAgainButton.setOnClickListener {
             finish()
+        }
+    }
+
+    private fun setUpSeekBar(questionCount:Int) {
+        binding.seekBar.run {
+            max = questionCount
+            setOnTouchListener { view, motionEvent -> true }
+            progress=max
         }
     }
 
