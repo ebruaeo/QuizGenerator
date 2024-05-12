@@ -13,6 +13,7 @@ import com.example.quizgenerator.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val restTime = 1000L
+    private var isScoreActivityStarted = false
 
     private val questions = arrayOf(
         "A slug's blood is green.",
@@ -144,13 +145,22 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra(ScoreActivity.SCORE_KEY, score)
             intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, questions.size)
             startActivity(intent)
+            isScoreActivityStarted = true
         }
     }
 
-    private fun restartQuiz() {
+    fun restartQuiz() {
         currentQuestionIndex = 0
         score = 0
         binding.displayQuestions()
+        resetUI()
+    }
+
+    private fun resetUI() {
+        binding.run {
+            scoreValue.text = score.toString()
+            seekBar.progress = 1
+        }
     }
 
     private fun ActivityMainBinding.freezeButtons() {
@@ -162,6 +172,14 @@ class MainActivity : AppCompatActivity() {
         optionOneButton.isEnabled = true
         optionTwoButton.isEnabled = true
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isScoreActivityStarted) {
+            restartQuiz()
+            isScoreActivityStarted = false
+        }
     }
 }
 

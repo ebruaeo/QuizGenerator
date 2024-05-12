@@ -33,7 +33,7 @@ class ScoreActivity : AppCompatActivity() {
         val questionCount = intent.getIntExtra(QUESTION_COUNT_KEY, -1)
         setScoreValues(score, questionCount)
         setUpSeekBar(questionCount)
-
+        setStartAgainClickListener()
     }
 
     private fun setScoreValues(score: Int, questionCount: Int) {
@@ -51,4 +51,10 @@ class ScoreActivity : AppCompatActivity() {
         }
     }
 
+    private fun setStartAgainClickListener() {
+        binding.startAgainButton.setOnClickListener {
+            finish()
+        }
+    }
 }
+
