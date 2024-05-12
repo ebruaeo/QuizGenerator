@@ -12,6 +12,7 @@ import com.example.quizgenerator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val restTime = 1000L
 
     private val questions = arrayOf(
         "A slug's blood is green.",
@@ -62,21 +63,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpSeekBar()
-        displayQuestions()
+        binding.displayQuestions()
+        setOptionButtonsClickListener()
+    }
 
-        //TODO**********************************************
-
-        binding.optionOneButton.setOnClickListener {
-            freezeButtons()
-            checkAnswer(0)
+    private fun setOptionButtonsClickListener() {
+        binding.run {
+            optionOneButton.setOnClickListener {
+                freezeButtons()
+                checkAnswer(0)
+                setNext()
+            }
+            optionTwoButton.setOnClickListener {
+                freezeButtons()
+                checkAnswer(1)
+                setNext()
+            }
         }
-        binding.optionTwoButton.setOnClickListener {
-            freezeButtons()
-            checkAnswer(1)
-
-        }
-
-
     }
 
     private fun setUpSeekBar() {
@@ -87,42 +90,40 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun correctButtonColors(buttonIndex: Int) {
-        when (buttonIndex) {
-            0 -> binding.optionOneButton.setBackgroundResource(R.drawable.green_background)
-            1 -> binding.optionTwoButton.setBackgroundResource(R.drawable.green_background)
+        binding.run {
+            when (buttonIndex) {
+                0 -> optionOneButton.setBackgroundResource(R.drawable.green_background)
+                1 -> optionTwoButton.setBackgroundResource(R.drawable.green_background)
+            }
         }
-
     }
 
     private fun wrongButtonColors(buttonIndex: Int) {
-        when (buttonIndex) {
-            0 -> binding.optionOneButton.setBackgroundResource(R.drawable.red_background)
-            1 -> binding.optionTwoButton.setBackgroundResource(R.drawable.red_background)
+        binding.run {
+            when (buttonIndex) {
+                0 -> optionOneButton.setBackgroundResource(R.drawable.red_background)
+                1 -> optionTwoButton.setBackgroundResource(R.drawable.red_background)
+            }
         }
     }
 
-    private fun resetButtonColors() {
-        binding.optionOneButton.setBackgroundResource(R.drawable.my_button)
-        binding.optionTwoButton.setBackgroundResource(R.drawable.my_button)
-
+    private fun ActivityMainBinding.resetButtonColors() {
+        optionOneButton.setBackgroundResource(R.drawable.my_button)
+        optionTwoButton.setBackgroundResource(R.drawable.my_button)
     }
 
-    private fun displayQuestions() {
-        binding.quizText.text = questions[currentQuestionIndex]
-        binding.optionOneButton.text = options[currentQuestionIndex][0]
-        binding.optionTwoButton.text = options[currentQuestionIndex][1]
+    private fun ActivityMainBinding.displayQuestions() {
+        quizText.text = questions[currentQuestionIndex]
+        optionOneButton.text = options[currentQuestionIndex][0]
+        optionTwoButton.text = options[currentQuestionIndex][1]
         resetButtonColors()
-        binding.seekBar.progress += 1
+        seekBar.progress += 1
         unfreezeButtons()
-
     }
-
 
     private fun checkAnswer(selectedAnswerIndex: Int) {
         val correctAnswerIndex = correctAnswers[currentQuestionIndex]
-
         if (selectedAnswerIndex == correctAnswerIndex) {
             score++
             binding.scoreValue.text = score.toString()
@@ -132,9 +133,12 @@ class MainActivity : AppCompatActivity() {
             wrongButtonColors(selectedAnswerIndex)
             correctButtonColors(correctAnswerIndex)
         }
+    }
+
+    private fun setNext() {
         if (currentQuestionIndex < questions.size - 1) {
             currentQuestionIndex++
-            binding.quizText.postDelayed({ displayQuestions() }, 2000)
+            binding.quizText.postDelayed({ binding.displayQuestions() }, restTime)
         } else if (currentQuestionIndex == questions.size - 1) {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
             intent.putExtra(ScoreActivity.SCORE_KEY, score)
@@ -146,17 +150,17 @@ class MainActivity : AppCompatActivity() {
     private fun restartQuiz() {
         currentQuestionIndex = 0
         score = 0
-        displayQuestions()
+        binding.displayQuestions()
     }
 
-    private fun freezeButtons() {
-        binding.optionOneButton.isEnabled = false
-        binding.optionTwoButton.isEnabled = false
+    private fun ActivityMainBinding.freezeButtons() {
+        optionOneButton.isEnabled = false
+        optionTwoButton.isEnabled = false
     }
 
-    private fun unfreezeButtons() {
-        binding.optionOneButton.isEnabled = true
-        binding.optionTwoButton.isEnabled = true
+    private fun ActivityMainBinding.unfreezeButtons() {
+        optionOneButton.isEnabled = true
+        optionTwoButton.isEnabled = true
 
     }
 }
