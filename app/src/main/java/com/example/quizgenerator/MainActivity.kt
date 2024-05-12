@@ -67,10 +67,13 @@ class MainActivity : AppCompatActivity() {
         //TODO**********************************************
 
         binding.optionOneButton.setOnClickListener {
+            freezeButtons()
             checkAnswer(0)
         }
         binding.optionTwoButton.setOnClickListener {
+            freezeButtons()
             checkAnswer(1)
+
         }
 
 
@@ -112,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         binding.optionTwoButton.text = options[currentQuestionIndex][1]
         resetButtonColors()
         binding.seekBar.progress += 1
-
+        unfreezeButtons()
 
     }
 
@@ -124,13 +127,14 @@ class MainActivity : AppCompatActivity() {
             score++
             binding.scoreValue.text = score.toString()
             correctButtonColors(selectedAnswerIndex)
+
         } else {
             wrongButtonColors(selectedAnswerIndex)
             correctButtonColors(correctAnswerIndex)
         }
         if (currentQuestionIndex < questions.size - 1) {
             currentQuestionIndex++
-            binding.quizText.postDelayed({ displayQuestions() }, 1000)
+            binding.quizText.postDelayed({ displayQuestions() }, 2000)
         } else if (currentQuestionIndex == questions.size - 1) {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
             intent.putExtra(ScoreActivity.SCORE_KEY, score)
@@ -145,6 +149,16 @@ class MainActivity : AppCompatActivity() {
         displayQuestions()
     }
 
+    private fun freezeButtons() {
+        binding.optionOneButton.isEnabled = false
+        binding.optionTwoButton.isEnabled = false
+    }
+
+    private fun unfreezeButtons() {
+        binding.optionOneButton.isEnabled = true
+        binding.optionTwoButton.isEnabled = true
+
+    }
 }
 
 
