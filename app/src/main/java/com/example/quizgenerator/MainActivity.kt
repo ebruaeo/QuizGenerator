@@ -117,7 +117,9 @@ class MainActivity : AppCompatActivity() {
             currentQuestionIndex++
             binding.quizText.postDelayed({ displayQuestions() }, 1000)
         } else if (currentQuestionIndex == questions.size - 1) {
-            val intent = Intent(this@MainActivity, ScoreScreen::class.java)
+            val intent = Intent(this@MainActivity, ScoreActivity::class.java)
+            intent.putExtra(ScoreActivity.SCORE_KEY, score)
+            intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, questions.size)
             startActivity(intent)
         }
     }
