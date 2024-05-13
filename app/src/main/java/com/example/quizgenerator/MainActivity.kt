@@ -2,7 +2,6 @@ package com.example.quizgenerator
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View.OnTouchListener
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,54 +17,7 @@ class MainActivity : AppCompatActivity() {
     // 1- Veri modellemesi
     // 2- Akış planlaması
 
-    /*private val questions = arrayOf(
-        "A slug's blood is green.",
-        "Approximately one quarter of human bones are in the feet.",
-        "The total surface area of two human lungs is approximately 70 square metres.",
-        "In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.",
-        "It is illegal to pee in the Ocean in Portugal.",
-         "You can lead a cow down stairs but not up stairs.",
-         "Google was originally called 'Backrub'.",
-         "Buzz Aldrin's mother's maiden name was 'Moon'.",
-         "The loudest sound produced by any animal is 188 decibels. That animal is the African Elephant.",
-         "No piece of square dry paper can be folded in half more than 7 times.",
-         "Chocolate affects a dog's heart and nervous system; a few ounces are enough to kill a small dog."
-    )*/
-    /* private val options = arrayOf(
-         arrayOf("True", "False"),
-         arrayOf("True", "False"),
-         arrayOf("True", "False"),
-         arrayOf("True", "False"),
-         /* arrayOf("True", "False"),
-          arrayOf("True", "False"),
-          arrayOf("True", "False"),
-          arrayOf("True", "False"),
-          arrayOf("True", "False"),
-          arrayOf("True", "False"),
-          arrayOf("True", "False"),*/
-     ) */
-    /* private val correctAnswers = arrayOf(
-         0, 0, 0, 0, // 0, 1, 0, 0, 1, 1, 0
-     ) */
-
-    private val questionList = arrayOf(
-        Question(1, "A slug's blood is green.", true),
-        Question(2, "Approximately one quarter of human bones are in the feet.", true),
-        Question(
-            3,
-            "The total surface area of two human lungs is approximately 70 square metres.",
-            true
-        ),
-        Question(
-            4,
-            "In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.",
-            true
-        ),
-    )
-
-    private var currentQuestionIndex = 0
-    private var score = 0
-
+    private val quiz = Quiz()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,8 +31,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpSeekBar()
-        binding.displayQuestions()
+        binding.displayFirstQuestion()
         setOptionButtonsClickListener()
+
     }
 
     private fun setOptionButtonsClickListener() {
@@ -101,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     private fun setUpSeekBar() {
         binding.seekBar.run {
             // isEnabled = false
-            max = questionList.size
+            max = quiz.getQuestionCount()
             setOnTouchListener { view, motionEvent -> true }
         }
     }
@@ -129,13 +82,16 @@ class MainActivity : AppCompatActivity() {
         optionTwoButton.setBackgroundResource(R.drawable.my_button)
     }
 
-    private fun ActivityMainBinding.displayQuestions() {
-        quizText.text = questionList[currentQuestionIndex].text
-        //optionOneButton.text = options[currentQuestionIndex][0]
-        //optionTwoButton.text = options[currentQuestionIndex][1]
+    private fun ActivityMainBinding.displayNextQuestion() {
+        quizText.text = quiz.getNextQuestion().text
         resetButtonColors()
         seekBar.progress += 1
         unfreezeButtons()
+    }
+
+    private fun ActivityMainBinding.displayFirstQuestion() {
+        quizText.text = quiz.getCurrentQuestion().text
+        seekBar.progress++
     }
 
     // TODO Use enum class
@@ -145,53 +101,44 @@ class MainActivity : AppCompatActivity() {
             1 -> false
             else -> throw Exception("selectedAnswerIndex is wrong: $selectedAnswerIndex")
         }
-        if (answer == questionList[currentQuestionIndex].answer) {
-            score++
-            binding.scoreValue.text = score.toString()
+
+        if (quiz.isAnswerCorrect(answer)) {
+            quiz.increaseScore()
+            binding.scoreValue.text = quiz.getScoreString()
             correctButtonColors(selectedAnswerIndex)
         } else {
             wrongButtonColors(selectedAnswerIndex)
             val correctAnswerIndex = if (selectedAnswerIndex == 0) 1 else 0
             correctButtonColors(correctAnswerIndex)
         }
-
-        //val correctAnswerIndex = correctAnswers[currentQuestionIndex]
-        /*if (selectedAnswerIndex == correctAnswerIndex) {
-            score++
-            binding.scoreValue.text = score.toString()
-            correctButtonColors(selectedAnswerIndex)
-
-        } else {
-            wrongButtonColors(selectedAnswerIndex)
-            correctButtonColors(correctAnswerIndex)
-        }*/
     }
 
     private fun setNext() {
-        if (currentQuestionIndex < questionList.size - 1) {
-            currentQuestionIndex++
-            binding.quizText.postDelayed({ binding.displayQuestions() }, restTime)
-        } else if (currentQuestionIndex == questionList.size - 1) {
+        if (quiz.hasNextQuestion()) {
+            binding.quizText.postDelayed({ binding.displayNextQuestion() }, restTime)
+        } else {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
-            intent.putExtra(ScoreActivity.SCORE_KEY, score)
-            intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, questionList.size)
+            intent.putExtra(ScoreActivity.SCORE_KEY, quiz.getScore())
+            intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, quiz.getQuestionCount())
             startActivity(intent)
             isScoreActivityStarted = true
         }
     }
 
-    fun restartQuiz() {
-        currentQuestionIndex = 0
-        score = 0
-        binding.displayQuestions()
+    private fun restartQuiz() {
+        quiz.restartQuiz()
+        binding.displayFirstQuestion()
         resetUI()
     }
 
     private fun resetUI() {
         binding.run {
-            scoreValue.text = score.toString()
+            scoreValue.text = quiz.getScoreString()
             seekBar.progress = 1
+            resetButtonColors()
+            unfreezeButtons()
         }
+
     }
 
     private fun ActivityMainBinding.freezeButtons() {
