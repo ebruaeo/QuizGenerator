@@ -53,6 +53,7 @@ class ScoreActivity : AppCompatActivity() {
 
     private fun setStartAgainClickListener() {
         binding.startAgainButton.setOnClickListener {
+            setResult(RESULT_OK)
             finish()
         }
     }

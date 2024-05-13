@@ -12,8 +12,7 @@ import com.example.quizgenerator.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val restTime = 1000L
-    private var isScoreActivityStarted = false
-
+    private val openScoreActivity = 1
     // 1- Veri modellemesi
     // 2- Akış planlaması
 
@@ -120,8 +119,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
             intent.putExtra(ScoreActivity.SCORE_KEY, quiz.getScore())
             intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, quiz.getQuestionCount())
-            startActivity(intent)
-            isScoreActivityStarted = true
+            startActivityForResult(intent, openScoreActivity)
         }
     }
 
@@ -152,11 +150,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (isScoreActivityStarted) {
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == openScoreActivity && resultCode == RESULT_OK){
             restartQuiz()
-            isScoreActivityStarted = false
         }
     }
 }
