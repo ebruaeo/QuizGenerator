@@ -3,6 +3,11 @@ package com.example.quizgenerator
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,6 +22,19 @@ class MainActivity : AppCompatActivity() {
     // 2- Akış planlaması
 
     private val quiz = Quiz()
+
+    val activityLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback<ActivityResult>() { activityResult ->
+            val resultCode = activityResult.resultCode
+            val data = activityResult.data
+            if (resultCode == RESULT_OK) {
+                restartQuiz()
+            }
+        }
+
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +137,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
             intent.putExtra(ScoreActivity.SCORE_KEY, quiz.getScore())
             intent.putExtra(ScoreActivity.QUESTION_COUNT_KEY, quiz.getQuestionCount())
-            startActivityForResult(intent, openScoreActivity)
+            activityLauncher.launch(intent)
         }
     }
 
@@ -150,13 +168,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == openScoreActivity && resultCode == RESULT_OK){
-            restartQuiz()
-        }
-    }
 }
 
 
