@@ -1,5 +1,6 @@
 package com.example.quizgenerator
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -53,7 +54,10 @@ class ScoreActivity : AppCompatActivity() {
 
     private fun setStartAgainClickListener() {
         binding.startAgainButton.setOnClickListener {
-            setResult(RESULT_OK)
+            var data = Intent()
+            data.putExtra("a", "b")
+            setResult(RESULT_OK, data)
+
             finish()
         }
     }

@@ -28,9 +28,11 @@ class MainActivity : AppCompatActivity() {
         ActivityResultCallback<ActivityResult>() { activityResult ->
             val resultCode = activityResult.resultCode
             val data = activityResult.data
+dta            val intentData = data?.getStringExtra("a")
             if (resultCode == RESULT_OK) {
                 restartQuiz()
             }
+
         }
 
     )
@@ -132,7 +134,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNext() {
         if (quiz.hasNextQuestion()) {
-            binding.quizText.postDelayed({ binding.displayNextQuestion() }, restTime)
+            binding.quizText.postDelayed({ binding.displayNextQuestion() }, 1000)
         } else {
             val intent = Intent(this@MainActivity, ScoreActivity::class.java)
             intent.putExtra(ScoreActivity.SCORE_KEY, quiz.getScore())
