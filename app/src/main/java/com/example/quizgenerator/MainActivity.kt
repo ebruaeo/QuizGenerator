@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         ActivityResultCallback<ActivityResult>() { activityResult ->
             val resultCode = activityResult.resultCode
             val data = activityResult.data
-dta            val intentData = data?.getStringExtra("a")
+          val intentData = data?.getStringExtra("a")
             if (resultCode == RESULT_OK) {
                 restartQuiz()
             }
