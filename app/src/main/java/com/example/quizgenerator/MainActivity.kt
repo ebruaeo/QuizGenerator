@@ -9,7 +9,7 @@ import com.example.quizgenerator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private var quiz = Quiz()
+
 
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,38 +25,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        setSeekbar()
 
 
     }
 
-    private fun setSeekbar() {
-   binding.run {
-       seekBar.max = quiz.questionCount()
-      seekBar.progress = 1
-       seekBar.setOnTouchListener{view,motionEvent->true}
-   }
-    }
-
-    private fun setCorrectAnswerButtonColor() {
-        binding.run {
-            optionOneButton.setBackgroundResource(R.drawable.green_button)
-            optionTwoButton.setBackgroundResource(R.drawable.green_button)
-        }
-    }
-
-    private fun setWrongAnswerButtonColor() {
-        binding.run {
-            optionOneButton.setBackgroundResource(R.drawable.red_button)
-            optionTwoButton.setBackgroundResource(R.drawable.red_button)
-        }
-    }
-
-    private fun resetButtonColors() {
-        binding.run {
-            optionOneButton.setBackgroundResource(R.drawable.my_button)
-            optionTwoButton.setBackgroundResource(R.drawable.my_button)
-        }
-    }
 
 }

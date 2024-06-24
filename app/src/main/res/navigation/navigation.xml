@@ -3,16 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/mainActivity">
+    app:startDestination="@id/questionFragment">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.quizgenerator.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/scoreFragment"
         android:name="com.example.quizgenerator.ScoreFragment"
         android:label="fragment_score"
-        tools:layout="@layout/fragment_score" />
+        tools:layout="@layout/fragment_score" >
+        <argument
+            android:name="score"
+            app:argType="string" />
+        <argument
+            android:name="questionCount"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionFragment"
+        android:name="com.example.quizgenerator.QuestionFragment"
+        android:label="QuestionFragment" >
+        <action
+            android:id="@+id/action_questionFragment_to_scoreFragment"
+            app:destination="@id/scoreFragment"
+            app:launchSingleTop="false"
+            app:popUpTo="@id/questionFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>
