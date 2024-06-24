@@ -41,35 +41,46 @@
         app:layout_constraintTop_toTopOf="@+id/textViewScore" />
 
     <TextView
-        android:id="@+id/quizText"
+        android:id="@+id/questionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:paddingEnd="24dp"
         android:text="@string/quiz_text"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/bubblesBackground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.234"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewScore"
-        app:layout_constraintVertical_bias="0.448" />
+        app:layout_constraintVertical_bias="0.391" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/trueButton"
+        android:id="@+id/optionOneButton"
         android:layout_width="325dp"
         android:layout_height="73dp"
-        android:layout_marginTop="264dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/my_button"
         android:text="True"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/falseButton"
+        app:layout_constraintBottom_toTopOf="@+id/optionTwoButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/quizText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/falseButton"
+        android:id="@+id/startAgainButton"
+        android:layout_width="325dp"
+        android:layout_height="73dp"
+        android:background="@drawable/my_button"
+        android:text="Start Again"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bubblesBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/optionTwoButton"
         android:layout_width="325dp"
         android:layout_height="73dp"
         android:layout_marginBottom="84dp"
@@ -79,4 +90,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="385dp"
+        android:layout_height="38dp"
+        android:layout_marginBottom="24dp"
+        android:progressBackgroundTint="#1E88E5"
+        android:progressTint="#1E88E5"
+        android:thumbTint="#1E88E5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
