@@ -1,22 +1,15 @@
-package com.example.quizgenerator
+package com.example.quizgenerator.domain
+
+import com.example.quizgenerator.data.Repository
 
 class Quiz {
     private var score = 0
     private var currentQuestionIndex = 0
-    private val questionList = arrayOf(
-        Question(1, "A slug's blood is green.", true),
-        Question(2, "Approximately one quarter of human bones are in the feet.", true),
-        Question(
-            3,
-            "The total surface area of two human lungs is approximately 70 square metres.",
-            true
-        ),
-        Question(
-            4,
-            "In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.",
-            true
-        ),
-    )
+    private var questionList: List<QuestionModels> = listOf()
+    private val repository = Repository()
+    fun fetchQuestionList() {
+        questionList = repository.getQuestionList()
+    }
 
     fun getQuestionCount() = questionList.size
     fun getCurrentQuestion() = questionList[currentQuestionIndex]
@@ -36,7 +29,7 @@ class Quiz {
 
     fun hasNextQuestion() = currentQuestionIndex != questionList.lastIndex
 
-    fun getNextQuestion(): Question {
+    fun getNextQuestion(): QuestionModels {
         currentQuestionIndex++
         return questionList[currentQuestionIndex]
     }

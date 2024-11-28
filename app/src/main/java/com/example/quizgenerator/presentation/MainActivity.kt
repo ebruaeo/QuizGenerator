@@ -1,4 +1,4 @@
-package com.example.quizgenerator
+package com.example.quizgenerator.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -6,7 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.quizgenerator.R
 import com.example.quizgenerator.databinding.ActivityMainBinding
+import com.example.quizgenerator.domain.Quiz
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        quiz.fetchQuestionList()
         setUpSeekBar()
         getFirstQuestion()
         setOptionButtonsClickListener()
